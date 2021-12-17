@@ -3,7 +3,9 @@
         <h3>Список постов</h3>
         <post-item 
             v-for="post in posts"
-            :post="post" />
+            :post="post"
+            :key="post.id" 
+            @remove="$emit('remove', post)"/>
     </div>
 </template>
 
@@ -23,6 +25,6 @@ export default {
 <style scoped>
     h3 {
         text-align: center;
-        margin-bottom: 10px;
+        margin: 10px 0;
     }
 </style>

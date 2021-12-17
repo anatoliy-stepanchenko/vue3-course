@@ -4,7 +4,8 @@
     <post-form 
       @create='createPost'/>
     <post-list 
-      :posts='posts'/>
+      :posts='posts'
+      @remove='removePost'/>
   </div>
   
 </template>
@@ -32,7 +33,13 @@
 
     methods: {
       createPost(post) {
-        this.posts.push(post);
+        if (post.title !== '') {
+          this.posts.push(post);
+        }  
+      },  
+
+      removePost(post) {
+        this.posts = this.posts.filter(p => p.id !== post.id);
       }
     }
 
@@ -59,14 +66,5 @@
     color: rgb(0, 88, 88);
   }
 
-  .btn {
-    background-color: rgb(165, 248, 227);
-    font-size: 1.1rem;
-    border-radius: 5px;
-    margin-bottom: 30px;
-    padding: 5px 15px;
-    box-shadow: 5px 5px 5px -2px cadetblue;
-    align-self: flex-end;
-  }
 
 </style>
