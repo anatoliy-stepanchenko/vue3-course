@@ -40,4 +40,16 @@ export default {
        box-shadow: 5px 5px 5px -2px rgb(179, 82, 65);
        color: azure;
     }
+
+    p {
+        font-size: 1.3rem;
+        color: rgb(2, 39, 28);
+    }
+
+    strong {
+        font-size: 1.1rem;
+        color: rgb(0, 88, 88);
+    }
+
+
 </style>

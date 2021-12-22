@@ -2,7 +2,7 @@
 
   <div class="app">
     <h1>Страница с постами</h1>
-    <my-button
+     <my-button
       @click="showDialog">
       Создать пост
     </my-button>
@@ -14,16 +14,20 @@
     
     <post-list 
       :posts='posts'
-      @remove='removePost'/>
+      @remove='removePost'
+      v-if="!isPostsLoading"/>
+    <h3 v-else>Идет загрузка...</h3>
   </div>
   
 </template>
 
 
 <script>
+
   import PostList from "@/components/PostList";
   import PostForm from "@/components/PostForm";
   import MyButton from '@/components/UI/MyButton.vue';
+  import axios from 'axios'
   
   export default {
 
@@ -33,12 +37,9 @@
 
     data() {
       return {
-        posts: [
-          {id: 1, title: 'JS', body: 'discription'},
-          {id: 2, title: 'JS 2', body: 'discription 2'},
-          {id: 3, title: 'JS 3', body: 'discription 3'},
-        ],
-        dialogVisible: false
+        posts: [],
+        dialogVisible: false,
+        isPostsLoading: false
       }
     },
 
@@ -56,10 +57,28 @@
 
       showDialog() {
         this.dialogVisible = true;
-      }
-    }
+      },
 
+      async fetchPosts() {
+        try {
+          this.isPostsLoading = true;
+          setTimeout(async () => {
+            const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+            this.posts = response.data;
+            this.isPostsLoading = false;
+          }, 1000);
+
+        } catch (error) {
+          alert('Error!!!');
+        } 
+      }
+    },
+
+    mounted() {
+        this.fetchPosts();
+      }
   }
+
 </script>
 
 <style>
@@ -73,14 +92,13 @@
     padding: 20px;
   }
 
-  p {
-    color: rgb(2, 39, 28);
+  h1 {
+    margin-bottom: 15px;
   }
 
-  strong {
-    font-size: 1.3rem;
-    color: rgb(0, 88, 88);
-  }
-
+  h3 {
+        text-align: center;
+        margin: 20px 0 10px;
+    }
 
 </style>

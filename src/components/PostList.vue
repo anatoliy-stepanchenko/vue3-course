@@ -27,6 +27,6 @@ export default {
 <style scoped>
     h3 {
         text-align: center;
-        margin: 10px 0;
+        margin: 20px 0 10px;
     }
 </style>
