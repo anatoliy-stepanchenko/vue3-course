@@ -14,14 +14,32 @@
   <div>
       <h3>Кол-во лайков: {{likes}} </h3>
   </div>
+
+  <hr>
+  <br>
+
+  <post-form @create="createPost"/>
+
+  <post-list :posts="posts" />
+
 </template>
 
 <script>
+import PostForm from '@/components/PostForm';
+import PostList from '@/components/PostList';
 import Button from 'primevue/button';
+
+
 export default {
     data() {
         return {
             likes: 5,
+            posts: [
+                {id: 1, title: 'JavaScript', body: 'Discription'},
+                {id: 2, title: 'JavaScript 2', body: 'Discription 2'},
+                {id: 3, title: 'JavaScript 3', body: 'Discription 3'},
+                {id: 4, title: 'JavaScript 4', body: 'Discription 4'},
+            ],
         }
     },
     methods: {
@@ -30,14 +48,27 @@ export default {
         },
         addDislike() {
             this.likes -= 1;
+        },
+        createPost(post) {
+            if (post.title !== '') {
+                this.posts.push(post);
+            }
         }
     },
     components: {
-        Button
+        PostForm,
+        PostList,
+        Button,
     }
 }
 </script>
 
 <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 </style>
