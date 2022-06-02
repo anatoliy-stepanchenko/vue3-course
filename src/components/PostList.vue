@@ -1,7 +1,8 @@
 <template>
     <div class="flex flex-column">
         <h3 class="align-self-center">Список постов</h3>
-        <post-item 
+        <post-item
+            @remove="$emit('remove', post)"
             v-for="post in posts"
             :key="post.id"
             :post="post"/>

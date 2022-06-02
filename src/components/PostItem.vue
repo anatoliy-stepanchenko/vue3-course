@@ -1,18 +1,29 @@
 <template>
-    <Panel
-        :header="post.title" 
-        class="mt-3 border blue-100"
-        >
-        {{post.body}}
-    </Panel>
+    <div class="post_item">
+        <div>
+            <div><strong>Название: </strong>{{post.title}}</div>
+            <div><strong>Описание: </strong>{{post.body}}</div>
+        </div>
+
+        <div>
+            <Button 
+                @click="$emit('remove', post)"
+                label="Удалить" 
+                class="p-button-danger p-button-raised p-button-rounded p-button-sm"
+            />
+        </div>
+    </div>
+  
 </template>
 
 <script>
 import Panel from 'primevue/panel';
+import Button from 'primevue/button';
 
 export default {
     components: {
-        Panel
+        Panel,
+        Button
     },
     props: {
         post: {
@@ -24,8 +35,12 @@ export default {
 </script>
 
 <style scoped>
-    .border {
+    .post_item {
+        display: flex;
+        margin-top: 10px;
+        padding: 10px;
         border: solid CadetBlue 2px;
         border-radius: 5px;
+        justify-content: space-between;
     }
 </style>

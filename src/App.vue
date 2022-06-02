@@ -1,26 +1,30 @@
 <template>
-  <h1>Hello!</h1>
-  <br>
-  <div>
-      <Button 
-        @click="addLike"
-        label="Like" 
-        class="p-button-success p-button-raised p-button-rounded p-button-sm mr-3" />
-      <Button 
-        @click="addDislike"
-        label="Dislike" 
-        class="p-button-danger p-button-raised p-button-rounded p-button-sm" />
+  <div class="app">
+    <h1>Hello!</h1>
+    <br>
+    <div>
+        <Button 
+            @click="addLike"
+            label="Like" 
+            class="p-button-success p-button-raised p-button-rounded p-button-sm mr-3" />
+        <Button 
+            @click="addDislike"
+            label="Dislike" 
+            class="p-button-danger p-button-raised p-button-rounded p-button-sm" />
+    </div>
+    <div>
+        <h3>Кол-во лайков: {{likes}} </h3>
+    </div>
+
+    <hr>
+    <br>
+
+    <post-form @create="createPost"/>
+
+    <post-list 
+        @remove="removePost"
+        :posts="posts" />
   </div>
-  <div>
-      <h3>Кол-во лайков: {{likes}} </h3>
-  </div>
-
-  <hr>
-  <br>
-
-  <post-form @create="createPost"/>
-
-  <post-list :posts="posts" />
 
 </template>
 
@@ -53,6 +57,9 @@ export default {
             if (post.title !== '') {
                 this.posts.push(post);
             }
+        },
+        removePost(post) {
+            this.posts = this.posts.filter(p => p.id !== post.id)
         }
     },
     components: {
@@ -69,6 +76,10 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.app {
+    padding: 20px;
 }
 
 </style>
