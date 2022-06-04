@@ -5,11 +5,11 @@
             <div><strong>Описание: </strong>{{post.body}}</div>
         </div>
 
-        <div>
+        <div class="flex align-items-center">
             <Button 
                 @click="$emit('remove', post)"
                 label="Удалить" 
-                class="p-button-danger p-button-raised p-button-rounded p-button-sm"
+                class="p-button-danger p-button-raised p-button-rounded p-button-sm ml-1"
             />
         </div>
     </div>

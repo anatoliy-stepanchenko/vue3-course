@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from '@/App';
 import PrimeVue from 'primevue/config';
+import components from '@/components/UI'
 
 import '/node_modules/primeflex/primeflex.css';
 
@@ -10,6 +11,10 @@ import 'primeicons/primeicons.css'
 
 
 const app = createApp(App);
+
+components.forEach(component => {
+    app.component(component.name, component)
+});
 
 app.use(PrimeVue);
 

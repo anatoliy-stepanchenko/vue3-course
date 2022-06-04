@@ -1,5 +1,7 @@
 <template>
-    <div class="flex flex-column">
+    <div 
+        v-if="posts.length > 0"
+        class="flex flex-column">
         <h3 class="align-self-center">Список постов</h3>
         <post-item
             @remove="$emit('remove', post)"
@@ -7,6 +9,10 @@
             :key="post.id"
             :post="post"/>
     </div>
+    <h3 
+        v-else 
+        style="color: red" 
+        class="flex justify-content-center">Список постов пуст!</h3>
 </template>
 
 <script>
