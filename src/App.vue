@@ -13,16 +13,28 @@
             class="p-button-danger p-button-raised p-button-rounded p-button-sm" />
     </div>
     <div>
-        <h3>Кол-во лайков: {{likes}} </h3>
+        <h3 class="mt-3">Кол-во лайков: {{likes}} </h3>
     </div>
 
     <hr>
     <br>
 
     <h2>Страница с постами</h2>
-    <div class="app__btns">
-        <Button class="mt-2" @click="showModal">Создать пост</Button>
-        <my-select/>
+    
+    <span class="p-input-icon-left mt-3" style="width: 100%">
+        <i class="pi pi-search" />
+        <InputText 
+            style="width: 100%"
+            type="text" 
+            v-model="searchQuery" 
+            placeholder="Поиск..." />
+    </span>
+
+    <div class="flex justify-content-between mt-3">
+        <Button class="" @click="showModal">Создать пост</Button>
+        <my-select 
+            v-model="selectedSort"
+            :options="sortOptions"/>
     </div>
 
 
@@ -32,7 +44,7 @@
 
     <post-list 
         @remove="removePost"
-        :posts="posts" 
+        :posts="sortedAndSearchedPost" 
         v-if="!isPostLoading"/>
     <div v-else><ProgressSpinner class="flex justify-content-center" /></div>
   </div>
@@ -44,6 +56,7 @@ import PostForm from '@/components/PostForm';
 import PostList from '@/components/PostList';
 import Button from 'primevue/button';
 import ProgressSpinner from 'primevue/progressspinner';
+import InputText from 'primevue/inputtext';
 // import MyModal from './components/UI/MyModal.vue';
 import axios from 'axios'
 
@@ -54,7 +67,13 @@ export default {
             likes: 5,
             posts: [],
             modalVisible: false,
-            isPostLoading: false
+            isPostLoading: false,
+            selectedSort: '',
+            searchQuery: '',
+            sortOptions: [
+                {value: 'title', name: 'По названию'},
+                {value: 'body', name: 'По описанию'},
+            ]
         }
     },
     methods: {
@@ -94,10 +113,24 @@ export default {
         PostForm,
         PostList,
         Button,
-        ProgressSpinner
+        ProgressSpinner,
+        InputText
     }, 
     mounted() {
         this.fetchPost();
+    },
+    watch: {
+        
+    },
+    computed: {
+        sortedPosts() {
+            return [...this.posts].sort((post1, post2) => {
+                return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort])
+            });
+        },
+        sortedAndSearchedPost() {
+            return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
+        }
     }
 }
 </script>
@@ -112,11 +145,6 @@ export default {
 
 .app {
     padding: 20px;
-}
-
-.app__btns {
-    display: flex;
-    justify-content: space-between;
 }
 
 </style>
