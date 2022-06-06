@@ -47,6 +47,18 @@
         :posts="sortedAndSearchedPost" 
         v-if="!isPostLoading"/>
     <div v-else><ProgressSpinner class="flex justify-content-center" /></div>
+
+    <div class="flex justify-content-center mt-3">
+        <div 
+            v-for="pageNumber in totalPage" 
+            :key="pageNumber"
+            @click="changePage(pageNumber)"
+            class="page"
+            :class="{
+                'current__page': page === pageNumber
+            }"
+            >{{pageNumber}}</div>
+    </div>
   </div>
 
 </template>
@@ -70,6 +82,9 @@ export default {
             isPostLoading: false,
             selectedSort: '',
             searchQuery: '',
+            page: 1,
+            limit: 10,
+            totalPage: 0,
             sortOptions: [
                 {value: 'title', name: 'По названию'},
                 {value: 'body', name: 'По описанию'},
@@ -99,14 +114,23 @@ export default {
             try {
                 this.isPostLoading = true;
                 setTimeout(async () => {
-                    const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+                    const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+                        params: {
+                            _page: this.page,
+                            _limit: this.limit
+                        }
+                    });
+                    this.totalPage = Math.ceil(response.headers['x-total-count']/this.limit);
                     this.posts = response.data;  
                     this.isPostLoading = false;
-                }, 1000);
+                }, 500);
 
             } catch (error) {
                 alert(error);
             }
+        },
+        changePage(pageNumber) {
+            this.page = pageNumber;
         }
     },
     components: {
@@ -120,7 +144,9 @@ export default {
         this.fetchPost();
     },
     watch: {
-        
+        page() {
+            this.fetchPost();
+        }
     },
     computed: {
         sortedPosts() {
@@ -145,6 +171,16 @@ export default {
 
 .app {
     padding: 20px;
+}
+
+.page {
+    border: solid black 1px;
+    padding: 15px;
+    margin: 1px;
+}
+
+.current__page {
+    border: solid lightseagreen 2px;
 }
 
 </style>
