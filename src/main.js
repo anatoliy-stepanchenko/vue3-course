@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from '@/App';
 import PrimeVue from 'primevue/config';
-import components from '@/components/UI'
+import components from '@/components/UI';
+import router from './router/router';
 
 import '/node_modules/primeflex/primeflex.css';
 
@@ -17,5 +18,6 @@ components.forEach(component => {
 });
 
 app.use(PrimeVue);
+app.use(router);
 
 app.mount('#app');
